@@ -8,13 +8,13 @@ import scala.concurrent.duration._
 class WebSocketStressSimulation extends Simulation {
 
   val httpConf = http
-    .baseURL("http://localhost:3000")
+    .baseURL("http://publift-sds-2017.appspot.com")
     .acceptHeader("application/octet-stream,text/plain,text/javascript")
     .doNotTrackHeader("1")
     .acceptLanguageHeader("en-US,en;q=0.5")
     .acceptEncodingHeader("gzip, deflate")
     .userAgentHeader("Gatling2")
-    .wsBaseURL("ws://localhost:3000")
+    .wsBaseURL("ws://publift-sds-2017.appspot.com:3000")
 
   val randomUser = UUID.randomUUID.toString
 
