@@ -15,7 +15,7 @@ class WebSocketStressSimulation extends Simulation {
     .acceptLanguageHeader("en-US,en;q=0.5")
     .acceptEncodingHeader("gzip, deflate")
     .userAgentHeader("Unknown request by: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/60.0.3112.78 Chrome/60.0.3112.78 Safari/537.36")
-//    .wsBaseURL("ws://publift-sds-2017.appspot.com")
+//    .wsBaseURL("ws://publift-sds-2017.appspot.com:65080")
     .wsBaseURL("ws://localhost:65080")
 
   val randomUser = UUID.randomUUID.toString
