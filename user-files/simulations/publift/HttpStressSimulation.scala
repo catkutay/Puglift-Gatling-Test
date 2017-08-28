@@ -23,27 +23,27 @@ class HttpStressSimulation extends Simulation {
     .exec(
       http("Page Load")
         .post("/page_load")
-        .body(StringBody(s"""{"type": "page_load", "value": {"event_type": "page_load", "user_id": "${randomUser}", "method", "http"}}"""))
+        .body(StringBody(s"""{"type": "page_load", "value": {"event_type": "page_load", "user_id": "${randomUser}", "method": "http"}}"""))
         .asJSON
     )
     .exec(
       http("Bid Requests")
         .post("/bid_requests")
-        .body(StringBody(s"""{"type": "bid_requests", "value": {"event_type": "bid_requests", "user_id": "${randomUser}", "method", "http"}}"""))
+        .body(StringBody(s"""{"type": "bid_requests", "value": {"event_type": "bid_requests", "user_id": "${randomUser}", "method": "http"}}"""))
         .asJSON
     )
     .exec(
       http("Bid results")
         .post("/bid_results")
-        .body(StringBody(s"""{"type": "bid_results", "value": {"event_type": "bid_results", "user_id": "${randomUser}", "method", "http"}}"""))
+        .body(StringBody(s"""{"type": "bid_results", "value": {"event_type": "bid_results", "user_id": "${randomUser}", "method": "http"}}"""))
         .asJSON
     )
     .exec(
       http("Creative render")
         .post("/creative_render")
-        .body(StringBody(s"""{"type": "creative_render", "value": {"event_type": "creative_render", "user_id": "${randomUser}", "method", "http"}}"""))
+        .body(StringBody(s"""{"type": "creative_render", "value": {"event_type": "creative_render", "user_id": "${randomUser}", "method": "http"}}"""))
         .asJSON
     )
 
-  setUp(scn.inject(rampUsers(1) over (10 seconds))).protocols(httpConf)
+  setUp(scn.inject(rampUsers(10000) over (10 seconds))).protocols(httpConf)
 }
