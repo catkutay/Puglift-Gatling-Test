@@ -3,6 +3,7 @@ package publift
 import java.util.UUID
 
 import io.gatling.core.Predef._
+import io.gatling.core.feeder._
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
@@ -17,33 +18,34 @@ class HttpStressSimulation extends Simulation {
     .acceptEncodingHeader("gzip, deflate")
     .userAgentHeader("Unknown request by: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/60.0.3112.78 Chrome/60.0.3112.78 Safari/537.36")
 
-  val randomUser = UUID.randomUUID.toString
+  val feeder = Iterator.continually(Map("user_id" -> UUID.randomUUID.toString))
 
   val scn = scenario("HttpStressSimulation")
+    .feed(feeder)
     .exec(
       http("Page Load")
         .post("/page_load")
-        .body(StringBody(s"""{"type": "page_load", "value": {"event_type": "page_load", "user_id": "${randomUser}", "method": "http"}}"""))
+        .body(StringBody("""{"type": "page_load", "value": {"event_type": "page_load", "user_id": "${user_id}", "method": "http"}}"""))
         .asJSON
     )
     .exec(
       http("Bid Requests")
         .post("/bid_requests")
-        .body(StringBody(s"""{"type": "bid_requests", "value": {"event_type": "bid_requests", "user_id": "${randomUser}", "method": "http"}}"""))
+        .body(StringBody("""{"type": "bid_requests", "value": {"event_type": "bid_requests", "user_id": "${user_id}", "method": "http"}}"""))
         .asJSON
     )
     .exec(
       http("Bid results")
         .post("/bid_results")
-        .body(StringBody(s"""{"type": "bid_results", "value": {"event_type": "bid_results", "user_id": "${randomUser}", "method": "http"}}"""))
+        .body(StringBody("""{"type": "bid_results", "value": {"event_type": "bid_results", "user_id": "${user_id}", "method": "http"}}"""))
         .asJSON
     )
     .exec(
       http("Creative render")
         .post("/creative_render")
-        .body(StringBody(s"""{"type": "creative_render", "value": {"event_type": "creative_render", "user_id": "${randomUser}", "method": "http"}}"""))
+        .body(StringBody("""{"type": "creative_render", "value": {"event_type": "creative_render", "user_id": "${user_id}", "method": "http"}}"""))
         .asJSON
     )
 
-  setUp(scn.inject(rampUsers(10000) over (10 seconds))).protocols(httpConf)
+  setUp(scn.inject(rampUsers(20000) over (20 seconds))).protocols(httpConf)
 }
