@@ -10,8 +10,8 @@ import scala.concurrent.duration._
 class HttpStressSimulation extends Simulation {
 
   val httpConf = http
-//    .baseURL("http://publift-sds-2017.appspot.com")
-    .baseURL("http://localhost:3000")
+    .baseURL("http://publift-sds-2017.appspot.com")
+//    .baseURL("http://localhost:3000")
     .acceptHeader("application/octet-stream,text/plain,text/javascript")
     .doNotTrackHeader("1")
     .acceptLanguageHeader("en-US,en;q=0.5")
@@ -47,5 +47,5 @@ class HttpStressSimulation extends Simulation {
         .asJSON
     )
 
-  setUp(scn.inject(rampUsers(20000) over (20 seconds))).protocols(httpConf)
+  setUp(scn.inject(rampUsers(10000) over (20 seconds))).protocols(httpConf)
 }
