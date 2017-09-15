@@ -105,7 +105,7 @@ for id in "${!GCLOUD_HOST@}"
 do
   declare -n STOP_HOST=$id
   echo "Stopping host: ${STOP_HOST[hostname]}"
-  gcloud instances stop ${STOP_HOST[hostname]} --zone ${STOP_HOST[zone]}
+  gcloud compute instances stop ${STOP_HOST[hostname]} --zone ${STOP_HOST[zone]}
 done
 
 mv $LOCAL_GATHER_REPORTS_DIR $LOCAL_REPORT_DIR
