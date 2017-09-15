@@ -47,5 +47,6 @@ class HttpStressSimulation extends Simulation {
         .asJSON
     )
 
-  setUp(scn.inject(rampUsers(2000) over (20 seconds))).protocols(httpConf)
+  // setUp(scn.inject(rampUsers(18000) over (60 seconds))).protocols(httpConf)
+  setUp(scn.inject(rampUsersPerSec(100) to 300 during(120 seconds) randomized)).protocols(httpConf)
 }

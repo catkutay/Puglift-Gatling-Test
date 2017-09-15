@@ -1,0 +1,10 @@
+{
+  "simulation": "publift.HttpStressSimulation",
+  "simulationId": "httpstresssimulation",
+  "start": 1505453640582,
+  "description": "",
+  "scenarios": ["HttpStressSimulation"],
+  "assertions": [
+
+  ]
+}
