@@ -51,9 +51,14 @@ SERVER_GATHER_REPORTS_DIR=$SERVER_HOME/$GATHER_REPORTS_DIR
 #Change to your simulation class name
 SIMULATION_NAME='publift.HttpStressSimulation'
 
-#No need to change this
-
 echo "Starting Gatling cluster run for simulation: $SIMULATION_NAME"
+
+for id in "${!GCLOUD_HOST@}"
+do
+  declare -n START_HOST=$id
+  echo "Starting host: ${START_HOST[hostname]}"
+  gcloud compute instances start ${START_HOST[hostname]} --zone ${START_HOST[zone]}
+done
 
 echo "Cleaning previous runs from localhost"
 rm -rf $LOCAL_GATHER_REPORTS_DIR
@@ -94,6 +99,13 @@ do
   echo "Gathering result file from host: ${GATHER_HOST[hostname]}"
   gcloud compute ssh --ssh-flag="-n" --ssh-flag="-f" --zone ${GATHER_HOST[zone]} $USER_NAME@${GATHER_HOST[hostname]} --command "sh -c 'ls -t $SERVER_REPORT_DIR | head -n 1 | xargs -I {} mv ${SERVER_REPORT_DIR}/{} ${SERVER_REPORT_DIR}/report'"
   gcloud compute scp --scp-flag="-r" $USER_NAME@${GATHER_HOST[hostname]}:${SERVER_REPORT_DIR}/report/simulation.log ${LOCAL_GATHER_REPORTS_DIR}/simulation-${GATHER_HOST[hostname]}.log --zone ${GATHER_HOST[zone]}
+done
+
+for id in "${!GCLOUD_HOST@}"
+do
+  declare -n STOP_HOST=$id
+  echo "Stopping host: ${STOP_HOST[hostname]}"
+  gcloud instances stop ${STOP_HOST[hostname]} --zone ${STOP_HOST[zone]}
 done
 
 mv $LOCAL_GATHER_REPORTS_DIR $LOCAL_REPORT_DIR
