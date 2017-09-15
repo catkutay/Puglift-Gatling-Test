@@ -23,6 +23,11 @@ declare -A GCLOUD_HOST2=(
   [zone]="australia-southeast1-b"
 )
 
+declare -A GCLOUD_HOST3=(
+  [hostname]="gatling-test-3"
+  [zone]="australia-southeast1-c"
+)
+
 #Gatling root locations
 SERVER_HOME=/home/alex/puglift-gatling-test
 LOCAL_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
