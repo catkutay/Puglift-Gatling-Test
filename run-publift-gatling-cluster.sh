@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 ##################################################################################################################
 #Gatling scale out/cluster run script:
@@ -13,7 +13,7 @@
 USER_NAME='alex'
 
 #Remote hosts list
-declare -A GCLOUD_HOST1=( 
+declare -A GCLOUD_HOST1=(
   [hostname]="gatling-test-1"
   [zone]="australia-southeast1-a"
 )
@@ -26,6 +26,11 @@ declare -A GCLOUD_HOST2=(
 declare -A GCLOUD_HOST3=(
   [hostname]="gatling-test-3"
   [zone]="australia-southeast1-c"
+)
+
+declare -A GCLOUD_HOST4=(
+  [hostname]="gatling-test-4"
+  [zone]="australia-southeast1-b"
 )
 
 #Gatling root locations
