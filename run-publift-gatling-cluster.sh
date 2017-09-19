@@ -58,12 +58,15 @@ SIMULATION_NAME='publift.HttpStressSimulation'
 
 echo "Starting Gatling cluster run for simulation: $SIMULATION_NAME"
 
-for id in "${!GCLOUD_HOST@}"
-do
-  declare -n START_HOST=$id
-  echo "Starting host: ${START_HOST[hostname]}"
-  gcloud compute instances start ${START_HOST[hostname]} --zone ${START_HOST[zone]}
-done
+if [ $1 == "first" -o $1 == "single" ]
+then
+  for id in "${!GCLOUD_HOST@}"
+  do
+    declare -n START_HOST=$id
+    echo "Starting host: ${START_HOST[hostname]}"
+    gcloud compute instances start ${START_HOST[hostname]} --zone ${START_HOST[zone]}
+  done
+fi
 
 echo "Cleaning previous runs from localhost"
 rm -rf $LOCAL_GATHER_REPORTS_DIR
@@ -106,12 +109,15 @@ do
   gcloud compute scp --scp-flag="-r" $USER_NAME@${GATHER_HOST[hostname]}:${SERVER_REPORT_DIR}/report/simulation.log ${LOCAL_GATHER_REPORTS_DIR}/simulation-${GATHER_HOST[hostname]}.log --zone ${GATHER_HOST[zone]}
 done
 
-for id in "${!GCLOUD_HOST@}"
-do
-  declare -n STOP_HOST=$id
-  echo "Stopping host: ${STOP_HOST[hostname]}"
-  gcloud compute instances stop ${STOP_HOST[hostname]} --zone ${STOP_HOST[zone]}
-done
+if [ $1 == "last" -o $1 == "single" ]
+then
+  for id in "${!GCLOUD_HOST@}"
+  do
+    declare -n STOP_HOST=$id
+    echo "Stopping host: ${STOP_HOST[hostname]}"
+    gcloud compute instances stop ${STOP_HOST[hostname]} --zone ${STOP_HOST[zone]}
+  done
+fi
 
 mv $LOCAL_GATHER_REPORTS_DIR $LOCAL_REPORT_DIR
 echo "Aggregating simulations"

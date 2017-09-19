@@ -3,3 +3,4 @@ results/
 target/
 ensime-langserver.log
 .ensime_cache/
+simulation*.log
