@@ -36,7 +36,7 @@ class HttpStressSimulation extends Simulation {
     )
     .exec(
       http("Bid results")
-        .post("/bid_results")
+        .post("/bid_response")
         .body(StringBody("""{"type": "bid_results", "value": {"event_type": "bid_results", "user_id": "${user_id}", "method": "http"}}"""))
         .asJSON
     )
@@ -47,6 +47,6 @@ class HttpStressSimulation extends Simulation {
         .asJSON
     )
 
-  // setUp(scn.inject(rampUsers(18000) over (60 seconds))).protocols(httpConf)
-  setUp(scn.inject(rampUsersPerSec(20) to 300 during(600 seconds) randomized)).protocols(httpConf)
+//   setUp(scn.inject(rampUsers(5) over (2 seconds))).protocols(httpConf)
+  setUp(scn.inject(rampUsersPerSec(20) to 300 during(300 seconds) randomized)).protocols(httpConf)
 }
